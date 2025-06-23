@@ -6,13 +6,16 @@
   ],
   "compilerOptions": {
     "jsx": "react-jsx",
+    "types": ["jest", "@testing-library/jest-dom"],
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "baseUrl": "./src",
+    "strict": true,
+    "baseUrl": ".",
     "paths": {
-      "@components/*": ["components/*"],
-      "@features/*": ["features/*"]
+      "@components/*": ["src/shared/components/*"],
+      "@features/*": ["src/features/*"],
+      "@shared/*": ["src/shared/*"],
+      "@assets/*": ["src/assets/*"]
     }
-}
-
+  }
 }

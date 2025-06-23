@@ -27,6 +27,7 @@ export default tseslint.config(
         { allowConstantExport: true },
       ],
       "prettier/prettier": "error",
+      "@typescript-eslint/no-explicit-any": "off", // Desativa o lint do any
     },
   },
   prettierConfig
