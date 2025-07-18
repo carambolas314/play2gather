@@ -1,0 +1,9 @@
+.loginContainer {
+	padding-bottom: 300px;
+}
+
+@media (min-width: 1680px) {
+	.loginContainer {
+		padding-bottom: 30px;
+	}
+}
