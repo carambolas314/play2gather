@@ -1,5 +1,5 @@
 import Login from "./pages/Login";
-import Register from "./pages/Register";
+import RegisterFlow from "./pages/Register/RegisterFlow";
 
 export const iamRoutes = [
 	{
@@ -8,6 +8,6 @@ export const iamRoutes = [
 	},
 	{
 		path: "/register",
-		element: <Register />,
+		element: <RegisterFlow />,
 	},
 ];
