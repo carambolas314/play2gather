@@ -15,6 +15,7 @@ import * as actionCreators from "../state/auth.actions";
 import { api, requestConfig } from "@shared/lib/axios";
 import { AuthContext, type AuthContextActions } from "../context/AuthContext";
 import type { RequestError } from "@shared/types";
+import GlobalLoading from "@components/data-display/GlobalLoading";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
 	const [state, dispatch] = useReducer(authReducer, initialState);
@@ -92,11 +93,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 					try {
 						const response = await api.post(
-							"/auth/refresh-token",
+							"/auth/refresh",
 							{},
 							requestConfig(true),
 						);
-						const newToken = response.data.token;
+						const newToken = response.data.accessToken;
 
 						localStorage.setItem("token", newToken);
 						actions.refreshTokenSuccess({ token: newToken });
@@ -127,7 +128,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 				data,
 				requestConfig(false),
 			);
-			const { token } = response.data;
+			const { accessToken: token } = response.data;
 			localStorage.setItem("token", token);
 			actions.loginSuccess({ token });
 			return true;
@@ -152,7 +153,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 	return (
 		<AuthContext.Provider value={contextValue}>
-			{state.isInitialized ? children : <div>Carregando...</div>}
+			{state.isInitialized ? children : <GlobalLoading />}
 		</AuthContext.Provider>
 	);
 }
