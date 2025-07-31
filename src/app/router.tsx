@@ -15,9 +15,7 @@ export const appRoutes: RouteObject[] = [
 			{ path: "/about", element: <About /> },
 			...iamRoutes,
 			...gameRoutes,
-			...collectionRoutes
-			
-			
+			...collectionRoutes,
 		],
 	},
 ];
