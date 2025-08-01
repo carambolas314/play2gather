@@ -5,12 +5,12 @@ import React from 'react';
 const homeData = {
   welcomeMessage: 'Bem vindo de volta Lorenalpsum!',
   friendActivities: [
-    { id: 'a1', game: 'HOLLOW KNIGHT', friendName: '@lorenalpsum', status: 'Começou a jogar', gameImageUrl: 'https://cdn.akamai.steamstatic.com/steam/apps/367520/capsule_616x353.jpg' },
-    { id: 'a2', game: 'Mario Kart 8', friendName: '@lorenalpsum', status: 'Abandonou', gameImageUrl: 'https://assets.nintendo.com/image/upload/ar_16:9,b_rgb:FFFFFF,c_pad,dpr_2.0,f_auto,q_auto,w_600/b_rgb:none/v1/ncom/en_CA/games/switch/m/mario-kart-8-deluxe-switch/switch-mario-kart-8-deluxe-switch-hero-1' },
-    { id: 'a3', game: 'Grand Theft Auto V', friendName: '@lorenalpsum', status: 'Adicionou à coleção', gameImageUrl: 'https://cdn.akamai.steamstatic.com/steam/apps/271590/capsule_616x353.jpg' },
-    { id: 'a4', game: 'The Legend of Zelda', friendName: '@lorenalpsum', status: 'Começou a jogar', gameImageUrl: 'https://cdn.akamai.steamstatic.com/steam/apps/1841310/capsule_616x353.jpg' },
-    { id: 'a5', game: 'Metroid Dread', friendName: '@lorenalpsum', status: 'Começou a jogar', gameImageUrl: 'https://assets.nintendo.com/image/upload/ar_16:9,b_rgb:FFFFFF,c_pad,dpr_2.0,f_auto,q_auto,w_600/b_rgb:none/v1/ncom/en_CA/games/switch/m/metroid-dread-switch/switch-metroid-dread-switch-hero-1' },
-    { id: 'a6', game: 'Hollow Knight: Silksong', friendName: '@lorenalpsum', status: 'Começou a jogar', gameImageUrl: 'https://cdn.akamai.steamstatic.com/steam/apps/1030300/capsule_616x353.jpg' },
+    { id: 'a1', game: 'HOLLOW KNIGHT', friendName: '@lorenalpsum', status: 'Começou a jogar', gameImageUrl: './src/features/home/mocks/game-hollow.svg' },
+    { id: 'a2', game: 'Mario Kart 8', friendName: '@lorenalpsum', status: 'Abandonou', gameImageUrl: './src/features/home/mocks/game-mario.svg' },
+    { id: 'a3', game: 'Grand Theft Auto V', friendName: '@lorenalpsum', status: 'Adicionou à coleção', gameImageUrl: './src/features/home/mocks/game-gta.svg' },
+    { id: 'a4', game: 'The Legend of Zelda', friendName: '@lorenalpsum', status: 'Começou a jogar', gameImageUrl: './src/features/home/mocks/game-zelda.svg' },
+    { id: 'a5', game: 'Metroid Dread', friendName: '@lorenalpsum', status: 'Começou a jogar', gameImageUrl: './src/features/home/mocks/game-metroid.svg' },
+    { id: 'a6', game: 'Hollow Knight: Silksong', friendName: '@lorenalpsum', status: 'Começou a jogar', gameImageUrl: './src/features/home/mocks/game-hollow2.svg' },
   ],
   communityPanel: {
     title: 'Cabana dos juninos',
@@ -36,33 +36,31 @@ const homeData = {
 const HomePage: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#1C1C2E] text-white font-jost">
-      {/* Navbar */}
-      {/* <Navbar /> */}
 
       {/* Conteúdo principal da página com largura máxima e centralizado */}
       <div className="max-w-7xl mx-auto p-4 md:p-8">
         
         {/* ----- Cabeçalho de Boas-Vindas ----- */}
-        <h1 className="text-3xl font-bold mb-8">
+        <h1 className="text-4xl font-bold mb-12 mt-6">
           {homeData.welcomeMessage}
         </h1>
 
         {/* ----- Seção de Atividade de Amigos ----- */}
         <div className="mb-12">
           <h2 className="text-xl font-bold mb-4">Atividades dos seus amigos</h2>
-          <div className="flex space-x-6 overflow-x-auto custom-scrollbar"> {/* Scroll horizontal */}
+          <div className="flex space-x-6 overflow-x-auto "> {/* Scroll horizontal */}
             {homeData.friendActivities.map(activity => (
-              <div key={activity.id} className="flex-shrink-0 w-64 h-80 bg-[#2B2156] rounded-xl shadow-lg overflow-hidden relative">
+              <div key={activity.id} className="flex-shrink-0 w-44 h-full rounded-xl shadow-lg ">
                 <img src={activity.gameImageUrl} alt={activity.game} className="w-full h-3/5 object-cover" />
-                <div className="p-4 relative">
-                  <div className="flex items-center space-x-2 absolute top-0 transform -translate-y-1/2">
-                    <img src="https://via.placeholder.com/48/8B5CF6/FFFFFF?text=P" alt="Perfil" className="w-12 h-12 rounded-full border-2 border-[#2B2156]" />
+                <div className="p-3 ">
+                  <div className="flex items-center space-x-2 ">
+                    <img src="./src/features/home/mocks/profile-img.svg" alt="Perfil" className="w-9 rounded-full border-2 border-[#2B2156]" />
                     <div>
                       <p className="text-sm font-semibold">{activity.friendName}</p>
-                      <p className="text-xs text-gray-400">{activity.status}</p>
+                      <p className="text-xs text-[#CBE220]">{activity.status}</p>
                     </div>
                   </div>
-                  <h3 className="text-lg font-bold mt-8">{activity.game}</h3>
+                  
                 </div>
               </div>
             ))}
