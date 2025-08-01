@@ -355,7 +355,7 @@ const CollectionPage: React.FC = () => {
 									<img
 										src={game.imageUrl}
 										alt={game.name}
-										className="w-22 h-34 object-cover flex-shrink-0 rounded-[1vw] m-2"
+										className="w-22 h-34 object-cover flex-shrink-0 rounded-2xl m-2"
 									/>
 
 									{/* Conteúdo do Card */}

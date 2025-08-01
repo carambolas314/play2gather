@@ -3,7 +3,7 @@ import NotFoundPage from "./pages/NotFound";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Layout from "@shared/components/layout/Layout";
-import { gameRoutes, iamRoutes, collectionRoutes } from "@features/routes";
+import { gameRoutes, iamRoutes, collectionRoutes, profileRoutes, homeRoutes } from "@features/routes";
 
 export const appRoutes: RouteObject[] = [
 	{
@@ -16,6 +16,8 @@ export const appRoutes: RouteObject[] = [
 			...iamRoutes,
 			...gameRoutes,
 			...collectionRoutes,
+			...profileRoutes,
+			...homeRoutes,
 		],
 	},
 ];
