@@ -1,5 +1,9 @@
 import React from 'react';
 
+import {
+	mockPopularLists,
+} from "../../game/mocks";
+import PopularLists from '@features/game/components/PopularList';
 
 // Dados simulados para a página inicial
 const homeData = {
@@ -47,7 +51,7 @@ const HomePage: React.FC = () => {
 
         {/* ----- Seção de Atividade de Amigos ----- */}
         <div className="mb-12">
-          <h2 className="text-xl font-bold mb-4">Atividades dos seus amigos</h2>
+          <h2 className="text-2xl font-semibold mb-4">Atividades dos seus amigos</h2>
           <div className="flex space-x-6 overflow-x-auto "> {/* Scroll horizontal */}
             {homeData.friendActivities.map(activity => (
               <div key={activity.id} className="flex-shrink-0 w-44 h-full rounded-xl shadow-lg ">
@@ -70,9 +74,9 @@ const HomePage: React.FC = () => {
         {/* ----- Painel de Comunidade em Destaque ----- */}
         <div className="bg-[#2B2156] p-6 rounded-xl shadow-lg">
           {/* Cabeçalho do Painel da Comunidade */}
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center justify-between mb-2">
             <div className="flex items-center space-x-4">
-              <img src={homeData.communityPanel.iconUrl} alt="Ícone da Comunidade" className="w-12 h-12 rounded-full" />
+              <img src="../src/features/home/mocks/profile-img.svg" alt="Ícone da Comunidade" className="w-12 h-12 rounded-full" />
               <div>
                 <h2 className="text-xl font-bold">{homeData.communityPanel.title}</h2>
                 <p className="text-sm text-gray-400">{homeData.communityPanel.postsCount} novos posts</p>
@@ -84,65 +88,71 @@ const HomePage: React.FC = () => {
           </div>
 
           {/* Grid de Conteúdo da Comunidade */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-            {/* Coluna 1: Posts em Destaque */}
-            <div>
-              <h3 className="text-lg font-bold mb-4">Posts em destaque</h3>
-              <div className="space-y-4">
-                {homeData.communityPanel.featuredPosts.map(post => (
-                  <div key={post.id} className="flex items-start space-x-4">
-                    <img src={post.userPic} alt={post.user} className="w-10 h-10 rounded-full flex-shrink-0" />
-                    <div>
-                      <p className="font-semibold">{post.user} <span className="text-sm text-gray-400 font-normal">jogando</span></p>
-                      <p className="text-sm text-gray-300 mt-1 line-clamp-3">{post.content}</p>
-                      <div className="flex items-center space-x-4 text-xs text-gray-400 mt-2">
-                        <div className="flex items-center space-x-1">
-                          {/* Ícone de like (simulado) */}
-                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 11-3 0v-6zM6 10.333V15a2 2 0 002 2h2.167a2 2 0 001.665-1.026l5.77-9.584A2 2 0 0015.535 5H13a2 2 0 00-2 2v2.167h-2.167a1.5 1.5 0 01-1.5-1.5v-6z" /></svg>
-                          <span>{post.likes}</span>
-                        </div>
-                        <div className="flex items-center space-x-1">
-                          {/* Ícone de comentário (simulado) */}
-                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v6a2 2 0 01-2 2H8l-4 4V5z" /></svg>
-                          <span>{post.comments}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Coluna 2: Videos */}
-            <div>
-              <h3 className="text-lg font-bold mb-4">Videos</h3>
-              <div className="space-y-4">
-                {homeData.communityPanel.videos.map(video => (
-                  <div key={video.id}>
-                    <img src={video.thumbnailUrl} alt={video.title} className="w-full rounded-lg mb-2" />
-                    <p className="text-sm font-semibold">{video.title}</p>
-                    <p className="text-xs text-gray-400">{video.user}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Coluna 3: Galeria de Fãs */}
-            <div>
-              <h3 className="text-lg font-bold mb-4">Galeria de Fãs</h3>
-              <div className="grid grid-cols-2 gap-2">
-                {homeData.communityPanel.fanArt.map(art => (
-                  <div key={art.id}>
-                    <img src={art.imageUrl} alt="Fan Art" className="w-full rounded-lg mb-1" />
-                    <p className="text-xs text-gray-400">{art.user}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-          </div>
+         
         </div>
+          <div className='mt-6'>
+              <h2 className="text-2xl font-semibold mb-4">Destaques da sua coleção</h2>
+              <div className="mt-12 ">
+					<div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+						{" "}
+						{/* Adicionado 'gap-6' para espaçamento */}
+						{/* Card de N° de jogos */}
+						<div className="bg-[#2B2156] text-[#CBE220] p-6 rounded-xl shadow-lg flex flex-col items-start">
+							<img
+								src="./src/features/example/mocks/Game-icon.svg"
+								alt="Número de jogos"
+								className=" w-15 mb-4"
+							/>
+							<p className=" text-lg font-semibold">N° de jogos</p>
+							<p className="text-3xl font-bold">{}</p>
+							<p className=" text-sm mt-1">
+								O último jogo adicionado foi há 2 dias
+							</p>
+						</div>
+						{/* Card de Ano de Lançamento */}
+						<div className="bg-[#2B2156] text-[#F28F3B] p-6 rounded-xl shadow-lg flex flex-col items-start">
+							<img
+								src="./src/features/example/mocks/calendar-icon.svg"
+								alt="Ano de lançamento"
+								className="w-17 mb-4"
+							/>
+							<h3 className=" text-lg font-normal">Ano de lançamento</h3>
+							<p className="text-3xl font-bold">2020-2025</p>
+							<p className=" text-sm mt-1">
+								6 jogos adicionados nos últimos 6 meses
+							</p>
+						</div>
+						{/* Card de Desenvolvedoras Predominantes */}
+						<div className="bg-[#2B2156]  text-[#CBE220] p-6 rounded-xl shadow-lg flex flex-col items-start">
+							<img
+								src="./src/features/example/mocks/dev-icon.svg"
+								alt="Desenvolvedoras"
+								className="w-12 mb-4"
+							/>
+							<h3 className=" text-lg font-normal">
+								Desenvolvedoras predominantes
+							</h3>
+							<p className="text-3xl font-bold text-[#CBE220]">Epic Games</p>
+							<p className=" text-sm mt-1">Garena, PUBG</p>
+							<p className=" text-sm">Corporation e Activision</p>
+						</div>
+						{/* Card de Gêneros Predominantes */}
+						<div className="bg-[#2B2156] text-[#F28F3B] p-6 rounded-xl shadow-lg flex flex-col items-start">
+							<img
+								src="./src/features/example/mocks/battle-icon.svg"
+								alt="Gêneros"
+								className="w-15 mb-4"
+							/>
+							<h3 className="text-lg font-normal">Gêneros Predominantes</h3>
+							<p className="text-3xl font-bold text-[#F28F3B]">Battle Royale</p>
+							<p className=" text-sm mt-1">RPG, FPS e MOBA</p>
+						</div>
+					</div>
+				</div>
+          </div>
+          <div className='mt-6'>
+              <PopularLists items={mockPopularLists} />
+          </div>
 
       </div>
     </div>
