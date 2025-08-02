@@ -5,6 +5,22 @@ import React, { useState } from "react";
 import RegisterStep1 from "./RegisterStep1"; // Ajuste o caminho conforme sua estrutura
 import RegisterStep2 from "./RegisterStep2"; // Ajuste o caminho conforme sua estrutura
 import RegisterStep3 from "./RegisterStep3"; // Ajuste o caminho conforme sua estrutura
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+
+const RegisterUserFormSchema = z.object({
+	name: z.string().min(1, "O nome é obrigatório"),
+	email: z.email("Email inválido"),
+	password: z.string().min(8, "A senha deve ter no mínimo 8 caracteres"),
+	gender: z.enum(["male", "female", "other"], "Gênero inválido"),
+	birthdate: z.date().min(new Date(1900, 0, 1), "Data de nascimento inválida"),
+	favoriteGames: z
+		.array(z.string())
+		.min(1, "Selecione pelo menos um jogo favorito"),
+});
+
+export type RegisterUserFormValues = z.infer<typeof RegisterUserFormSchema>;
 
 const RegisterFlow: React.FC = () => {
 	const [currentStep, setCurrentStep] = useState(1);
@@ -22,32 +38,56 @@ const RegisterFlow: React.FC = () => {
 	};
 
 	// A função handleSubmit recebe um objeto 'data' para a última etapa
-	const handleSubmit = (data: any) => {
+	const handleRegister = (data: any) => {
 		setFormData((prevData: any) => ({ ...prevData, ...data }));
 		console.log("Dados completos do registro:", { ...formData, ...data });
-		alert("Registro concluído! Veja os dados no console.");
 	};
+
+	const {
+		control,
+		getValues,
+		// handleSubmit,
+		// formState: { isSubmitting },
+	} = useForm<RegisterUserFormValues>({
+		resolver: zodResolver(RegisterUserFormSchema),
+	});
 
 	const renderStep = () => {
 		switch (currentStep) {
 			case 1:
-				return <RegisterStep1 onNext={handleNextStep} />;
+				return (
+					<RegisterStep1
+						onNext={handleNextStep}
+						control={control}
+						getValues={getValues}
+					/>
+				);
 			case 2:
 				return (
 					<RegisterStep2
 						onNext={handleNextStep}
 						onPrevious={handlePreviousStep}
+						control={control}
+						getValues={getValues}
 					/>
 				);
 			case 3:
 				return (
 					<RegisterStep3
-						onSubmit={handleSubmit}
+						onSubmit={handleRegister}
 						onPrevious={handlePreviousStep}
+						control={control}
+						getValues={getValues}
 					/>
 				);
 			default:
-				return <RegisterStep1 onNext={handleNextStep} />;
+				return (
+					<RegisterStep1
+						onNext={handleNextStep}
+						control={control}
+						getValues={getValues}
+					/>
+				);
 		}
 	};
 

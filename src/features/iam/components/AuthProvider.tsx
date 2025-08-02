@@ -15,7 +15,6 @@ import * as actionCreators from "../state/auth.actions";
 import { api, requestConfig } from "@shared/lib/axios";
 import { AuthContext, type AuthContextActions } from "../context/AuthContext";
 import type { RequestError } from "@shared/types";
-import GlobalLoading from "@components/data-display/GlobalLoading";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
 	const [state, dispatch] = useReducer(authReducer, initialState);
@@ -25,8 +24,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 		stateRef.current = state;
 	});
 
-	const actions: AuthContextActions = useMemo(
-		() => ({
+	const actions: AuthContextActions = useMemo(() => {
+		console.log("Auth actions initialized");
+		return {
 			initialize: (payload) => dispatch(actionCreators.initialize(payload)),
 			loginStart: () => dispatch(actionCreators.loginStart()),
 			loginSuccess: (payload) => dispatch(actionCreators.loginSuccess(payload)),
@@ -36,16 +36,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 			refreshTokenSuccess: (payload) =>
 				dispatch(actionCreators.refreshTokenSuccess(payload)),
 			refreshTokenFailure: () => dispatch(actionCreators.refreshTokenFailure()),
-		}),
-		[],
-	);
+		};
+	}, []);
 
 	useEffect(() => {
 		const initializeApp = async () => {
 			try {
 				const localToken = localStorage.getItem("token");
 				if (localToken && localToken !== "undefined") {
-					const response = await api.get("/user/profile", requestConfig(false));
+					const response = await api.get("/profile", requestConfig(false));
 					actions.initialize({
 						isAuthenticated: true,
 						user: response.data ?? null,
@@ -65,7 +64,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 			}
 		};
 		initializeApp();
-	}, [actions]);
+	}, [actions, state.token]);
 
 	useLayoutEffect(() => {
 		const authInterceptor = api.interceptors.request.use((config) => {
@@ -93,7 +92,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 					try {
 						const response = await api.post(
-							"/auth/refresh",
+							"/refresh",
 							{},
 							requestConfig(true),
 						);
@@ -123,11 +122,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 	const login = async (data: Login): Promise<boolean> => {
 		actions.loginStart();
 		try {
-			const response = await api.post(
-				"/auth/login",
-				data,
-				requestConfig(false),
-			);
+			const response = await api.post("/login", data, requestConfig(false));
 			const { accessToken: token } = response.data;
 			localStorage.setItem("token", token);
 			actions.loginSuccess({ token });
@@ -141,19 +136,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 	const logout = async () => {
 		try {
-			await api.get("/auth/logout", requestConfig(false));
+			await api.post("/logout", requestConfig(true));
 			localStorage.removeItem("token");
 			actions.logout();
 		} catch (error) {
 			console.error("Server logout failed, but client is logged out.", error);
+			actions.logout();
+			localStorage.removeItem("token");
 		}
 	};
 
-	const contextValue = { ...state, login, logout };
+	const contextValue = { ...state, login, logout, actions };
 
 	return (
-		<AuthContext.Provider value={contextValue}>
-			{state.isInitialized ? children : <GlobalLoading />}
-		</AuthContext.Provider>
+		<AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
 	);
 }

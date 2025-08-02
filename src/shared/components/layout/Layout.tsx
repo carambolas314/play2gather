@@ -10,7 +10,7 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = () => {
 	return (
 		<div id="layout">
-			<div id="inner">
+			<div id="inner" className="flex flex-col h-[100vh] justify-between">
 				<Navbar />
 				<Outlet />
 				<Footer />

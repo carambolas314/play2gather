@@ -11,8 +11,14 @@ export const appRoutes: RouteObject[] = [
 		element: <Layout />,
 		errorElement: <NotFoundPage />,
 		children: [
-			{ path: "/", element: <Home /> },
+			{
+				path: "/",
+				element: <Home />,
+			},
 			{ path: "/about", element: <About /> },
+			{ path: "/home", element: <Home /> },
+			{ path: "/collection", element: <Home /> },
+			{ path: "/community", element: <Home /> },
 			...iamRoutes,
 			...gameRoutes,
 			...collectionRoutes,

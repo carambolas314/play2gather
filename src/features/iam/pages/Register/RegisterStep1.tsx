@@ -1,9 +1,14 @@
 // src/components/RegisterStep1.tsx
-import React, { useState } from "react";
+import React from "react";
+import type { Control, UseFormGetValues } from "react-hook-form";
+import type { RegisterUserFormValues } from "./RegisterFlow";
+import TextInput from "@components/ui/Input/Text/TextInput";
 
 // Interface para as props do RegisterStep1
 interface RegisterStep1Props {
 	onNext: (data: { username: string; password: string; email: string }) => void;
+	control: Control<RegisterUserFormValues>;
+	getValues: UseFormGetValues<RegisterUserFormValues>;
 }
 
 // Componente ProgressBar (reutilizável)
@@ -25,20 +30,11 @@ const ProgressBar: React.FC<{ current: number; total: number }> = ({
 };
 
 // Componente RegisterStep1 tipado
-const RegisterStep1: React.FC<RegisterStep1Props> = ({ onNext }) => {
-	const [username, setUsername] = useState("");
-	const [password, setPassword] = useState("");
-	const [email, setEmail] = useState("");
-
-	const handleContinue = () => {
-		// Validação básica: verifique se os campos não estão vazios
-		if (username.trim() && password.trim() && email.trim()) {
-			onNext({ username, password, email });
-		} else {
-			alert("Por favor, preencha todos os campos.");
-		}
-	};
-
+const RegisterStep1: React.FC<RegisterStep1Props> = ({
+	onNext,
+	control,
+	getValues,
+}) => {
 	return (
 		<div className="bg-[#2B2156] mt-16 mb-32 p-8 md:p-10 rounded-2xl shadow-2xl w-full max-w-md mx-auto">
 			{/* Top section: Arrow back and progress bar */}
@@ -62,50 +58,53 @@ const RegisterStep1: React.FC<RegisterStep1Props> = ({ onNext }) => {
 
 			{/* Form Fields */}
 			<div className="mb-3">
-				<label htmlFor="username" className="block text-white text-lg mb-2 ">
-					Nome de Usuário
-				</label>
-				<input
+				<TextInput
 					type="text"
-					id="username"
+					id="name"
+					name="name"
+					label="Nome de Usuário"
+					labelClassName="block text-white text-lg mb-2"
 					placeholder="Seu nome de Usuário"
-					value={username}
-					onChange={(e) => setUsername(e.target.value)}
 					className="w-full p-4 rounded-lg bg-[#42397B] text-gray-500 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6B40E3]"
+					control={control}
 				/>
 			</div>
 
 			<div className="mb-3">
-				<label htmlFor="password" className="block text-white text-lg mb-2 ">
-					Senha
-				</label>
-				<input
+				<TextInput
 					type="password"
 					id="password"
+					name="password"
 					placeholder="Mínimo 8 caracteres"
-					value={password}
-					onChange={(e) => setPassword(e.target.value)}
+					label="Senha"
+					labelClassName="block text-white text-lg mb-2"
 					className="w-full p-4 rounded-lg bg-[#42397B] text-gray-500 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6B40E3]"
+					control={control}
 				/>
 			</div>
 
 			<div className="mb-6">
-				<label htmlFor="email" className="block text-white text-lg mb-2">
-					Email
-				</label>
-				<input
+				<TextInput
 					type="email"
 					id="email"
+					name="email"
 					placeholder="Seu email"
-					value={email}
-					onChange={(e) => setEmail(e.target.value)}
+					label="Email"
+					labelClassName="block text-white text-lg mb-2"
 					className="w-full p-4 rounded-lg bg-[#42397B] text-gray-500 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6B40E3]"
+					control={control}
 				/>
 			</div>
 
 			{/* Continue with Email Button */}
 			<button
-				onClick={handleContinue}
+				onClick={() =>
+					onNext({
+						username: getValues("name"),
+						email: getValues("email"),
+						password: getValues("password"),
+					})
+				}
 				className="w-full bg-[#6B40E3] hover:bg-[#5734B7] text-white font-semibold py-4 rounded-xl mb-6 transition duration-200"
 			>
 				Continuar com Email

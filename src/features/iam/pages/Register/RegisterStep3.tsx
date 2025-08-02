@@ -1,8 +1,8 @@
 // src/components/RegisterStep3.tsx
-import React, { useState, useMemo } from "react"; // Importe useMemo aqui
-// import ProgressBar from './ProgressBar'; // Importe se estiver em um arquivo separado, senão, mantenha a definição local.
+import React, { useState } from "react";
+import type { RegisterUserFormValues } from "./RegisterFlow";
+import type { Control, UseFormGetValues } from "react-hook-form";
 
-// Definição do ProgressBar (se você não o moveu para um arquivo separado)
 const ProgressBar: React.FC<{ current: number; total: number }> = ({
 	current,
 	total,
@@ -22,10 +22,10 @@ const ProgressBar: React.FC<{ current: number; total: number }> = ({
 interface RegisterStep3Props {
 	onSubmit: (data: { favoriteGames: string[] }) => void; // Espera um array de strings
 	onPrevious: () => void;
+	control: Control<RegisterUserFormValues>;
+	getValues: UseFormGetValues<RegisterUserFormValues>;
 }
 
-// --- DADOS SIMULADOS DE JOGOS MOVIDOS PARA FORA DO COMPONENTE ---
-// Isso garante que 'allGames' seja uma referência estável e não seja recriada a cada renderização.
 const allGames = [
 	{
 		title: "Harvest Moon",
@@ -77,9 +77,10 @@ const RegisterStep3: React.FC<RegisterStep3Props> = ({
 	const [searchTerm, setSearchTerm] = useState("");
 	const [selectedGames, setSelectedGames] = useState<string[]>([]);
 
+	// Dados simulados de jogos e categorias - SUBSTITUA PELOS SEUS DADOS REAIS OU CHAME UMA API
+
 	// Filtra e agrupa os jogos por categoria
-	// 'allGames' NÃO É MAIS UMA DEPENDÊNCIA, pois é uma constante externa.
-	const filteredAndGroupedGames = useMemo(() => {
+	const filteredAndGroupedGames = React.useMemo(() => {
 		const filtered = allGames.filter((game) =>
 			game.title.toLowerCase().includes(searchTerm.toLowerCase()),
 		);
@@ -93,7 +94,7 @@ const RegisterStep3: React.FC<RegisterStep3Props> = ({
 			},
 			{} as Record<string, typeof allGames>,
 		); // Tipagem para o objeto agrupado
-	}, [searchTerm]); // <-- Dependência 'allGames' removida daqui
+	}, [searchTerm]);
 
 	const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchTerm(event.target.value);
@@ -172,7 +173,7 @@ const RegisterStep3: React.FC<RegisterStep3Props> = ({
 										key={game.title}
 										onClick={() => toggleGameSelection(game.title)}
 										className={`relative rounded-md overflow-hidden group focus:outline-none focus:ring-2 focus:ring-[#6B40E3] transition duration-200
-                                            ${selectedGames.includes(game.title) ? "border-2 border-[#CBE220]" : ""}`}
+                              ${selectedGames.includes(game.title) ? "border-2 border-[#CBE220]" : ""}`}
 									>
 										<img
 											src={game.imageUrl}
@@ -182,7 +183,7 @@ const RegisterStep3: React.FC<RegisterStep3Props> = ({
 										{/* Overlay para o título, fica visível apenas no hover ou selecionado */}
 										<div
 											className={`absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 p-1 text-center text-white text-xs font-semibold
-                                            group-hover:opacity-100 ${selectedGames.includes(game.title) ? "opacity-100" : "opacity-0"}`}
+                                  group-hover:opacity-100 ${selectedGames.includes(game.title) ? "opacity-100" : "opacity-0"}`}
 										>
 											{game.title}
 										</div>

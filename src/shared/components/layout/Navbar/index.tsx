@@ -1,48 +1,85 @@
+import { BellIcon, LogoP2G, ProfileIcon } from "@assets/index";
 import MaxWidthWrapper from "@components/wrappers/MaxWidthWrapper";
 import { useAuth } from "@features/iam/hooks/useAuth";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+
+const CustomNavLink = ({
+	to,
+	children,
+	isActive,
+}: {
+	to: string;
+	children: React.ReactNode;
+	isActive: boolean;
+}) => {
+	return (
+		<Link
+			to={to}
+			className={`hover:text-white ${
+				isActive ? "underline text-[#CBE220]" : "text-gray-300"
+			}`}
+		>
+			{children}
+		</Link>
+	);
+};
 
 const Navbar = () => {
-	const { isAuthenticated, currentUser } = useAuth();
+	const { currentUser, logout, isAuthenticated } = useAuth();
 
 	const location = useLocation();
 	const isLoginRoute = location.pathname === "/login";
 	const isRegisterRoute = location.pathname === "/register";
+	const navigate = useNavigate();
+
+	const handleLogout = async () => {
+		await logout();
+		navigate("/login");
+	};
 
 	return (
-		<nav className="bg-[#162059] text-white py-6 ">
+		<nav className="bg-[#162059] text-white py-2">
 			<MaxWidthWrapper className="flex justify-between items-center">
 				<div className="flex items-center">
-					<button className="bg-[#644BBF] text-white font-bold text-lg px-4 py-2 rounded-full">
-						Play2Gather
-					</button>
+					<Link to={"/home"}>
+						<LogoP2G width={125} height={80} />
+					</Link>
 				</div>
 
 				{!isLoginRoute && !isRegisterRoute && (
 					<div className="flex space-x-8 text-base">
-						<a href="#" className="text-gray-300 hover:text-white">
+						<CustomNavLink to="/home" isActive={location.pathname === "/home"}>
 							Início
-						</a>
-						<a href="#" className="text-white font-semibold">
+						</CustomNavLink>
+						<CustomNavLink
+							to="/collection"
+							isActive={location.pathname === "/collection"}
+						>
 							Coleção
-						</a>
-						<a href="#" className="text-gray-300 hover:text-white">
+						</CustomNavLink>
+						<CustomNavLink
+							to="/community"
+							isActive={location.pathname === "/community"}
+						>
 							Comunidade
-						</a>
+						</CustomNavLink>
 					</div>
 				)}
 
 				{!isAuthenticated && (
 					<div className="flex items-center space-x-4 text-sm">
 						{!isRegisterRoute && (
-							<a href="#" className="text-white hover:underline">
+							<Link to="/register" className="text-white hover:underline">
 								Cadastre-se
-							</a>
+							</Link>
 						)}
 						{!isLoginRoute && (
-							<button className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md">
+							<Link
+								to="/login"
+								className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md"
+							>
 								Fazer login
-							</button>
+							</Link>
 						)}
 					</div>
 				)}
@@ -50,9 +87,14 @@ const Navbar = () => {
 				{isAuthenticated && currentUser && currentUser.name && (
 					<div className="flex items-center space-x-4 text-sm">
 						<span className="text-white">Olá, {currentUser.name}!</span>
-						<a href="#" className="text-white hover:underline">
+						<ProfileIcon />
+						<BellIcon />
+						<button
+							className="text-white hover:underline"
+							onClick={() => handleLogout()}
+						>
 							Sair
-						</a>
+						</button>
 					</div>
 				)}
 			</MaxWidthWrapper>

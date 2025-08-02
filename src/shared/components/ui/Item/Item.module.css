@@ -1,0 +1,138 @@
+.container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.row {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.col {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.col.scrollBar {
+	overflow-y: auto;
+}
+
+.col.scrollBar::-webkit-scrollbar {
+	width: 8px;
+}
+
+.col.scrollBar::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+
+.col.scrollBar::-webkit-scrollbar-thumb {
+	background: #888;
+	border-radius: 10px;
+}
+
+.col.scrollBar::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}
+
+.link {
+	text-decoration: none;
+	color: inherit;
+}
+
+.title {
+	font-size: 64px;
+	font-weight: bold;
+}
+
+.subtitle {
+	font-size: 40px;
+	font-weight: 600;
+}
+
+.text {
+	font-size: 24px;
+	font-weight: medium;
+	font-weight: 500;
+}
+
+.message {
+	font-size: 16px;
+	font-weight: 400;
+	color: #313030;
+}
+.message.error {
+	color: #e66f6f;
+}
+.message.success {
+	color: #6db86b;
+}
+.message.warning {
+	color: #d9a644;
+}
+.message.default {
+	color: #313030;
+}
+
+.button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 5px;
+	width: 100px;
+	height: 40px;
+	border: 2px solid #a17b18;
+	border-radius: 10px;
+	color: #a17b18;
+	font-weight: 500;
+}
+
+.buttons {
+	display: flex;
+	width: 100%;
+	justify-content: space-around;
+	gap: 10px;
+}
+
+.buttons.register {
+	justify-content: space-between;
+}
+
+.button:hover {
+	background-color: #a17b18;
+	color: #ffffff;
+}
+
+.button:disabled {
+	background-color: #a0a0a0;
+	color: #ffffff;
+	border-color: #a0a0a0;
+}
+
+.table {
+	width: 90%;
+	border-collapse: collapse;
+	border-radius: 20px;
+}
+
+.thead {
+	border-radius: 20px;
+	background-color: #28356a;
+}
+
+.th {
+	color: #ffffff;
+	font-size: 24px;
+	font-weight: 600;
+	padding: 10px;
+	text-align: center;
+}
+
+.td {
+	color: #313030;
+	font-size: 20px;
+	font-weight: 500;
+	text-align: center;
+}
