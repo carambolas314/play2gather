@@ -1,9 +1,7 @@
 // src/pages/CollectionPage.tsx
+import CustomRangeSlider from "@components/ui/RangeSlider/CustomRangeSlider";
 import React, { useState, useEffect } from "react";
-
-// Certifique-se de que o caminho e o nome do arquivo estão corretos:
-import CustomRangeSlider from "../components/Range_Slider"; // Assumindo o nome do arquivo Range_Slider.tsx
-
+// TODO: REFACTOR
 // Definições de tipo (mantidas)
 interface Game {
 	id: string;
@@ -24,6 +22,24 @@ interface Filters {
 	developers: string[];
 }
 
+const mockGames: Game[] = Array.from({ length: 50 }).map((_, i) => ({
+	id: `game-${i}`,
+	name: `Nome do jogo ${i + 1}`, // Mantido o nome simples
+	year: 2020 + (i % 6), // Anos entre 2020 e 2025
+	description: `Descrição resumida do jogo podendo ocupar no máximo...`, // Descrição padrão
+	rating: (i % 5) + 1, // 1 a 5 estrelas
+	// Imagem placeholder mais genérica para simular o comportamento da sua imagem
+	imageUrl:
+		"https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/413150/capsule_616x353.jpg?t=17111",
+	platform: ["PC", "Playstation 5", "Xbox", "Nintendo Switch"][i % 4].split(
+		",",
+	),
+	genre: ["RPG", "FPS", "MOBA", "Aventura"][i % 4].split(","),
+	developer: ["Garena", "PUBG", "Corporation", "Activision", "Epic Games"][
+		i % 5
+	].split(","),
+}));
+
 const CollectionPage: React.FC = () => {
 	const [searchTerm, setSearchTerm] = useState("");
 	const [filters, setFilters] = useState<Filters>({
@@ -43,28 +59,11 @@ const CollectionPage: React.FC = () => {
 	const [showDevelopers, setShowDevelopers] = useState(true);
 
 	// Dados de jogos simulados (AJUSTADO PARA UM PLACEHOLDER DE IMAGEM MAIS GENÉRICO)
-	// O ideal é usar imagens reais ou um placeholder que você controle bem.
-	const mockGames: Game[] = Array.from({ length: 50 }).map((_, i) => ({
-		id: `game-${i}`,
-		name: `Nome do jogo ${i + 1}`, // Mantido o nome simples
-		year: 2020 + (i % 6), // Anos entre 2020 e 2025
-		description: `Descrição resumida do jogo podendo ocupar no máximo...`, // Descrição padrão
-		rating: (i % 5) + 1, // 1 a 5 estrelas
-		// Imagem placeholder mais genérica para simular o comportamento da sua imagem
-		imageUrl:
-			"https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/413150/capsule_616x353.jpg?t=17111",
-		platform: ["PC", "Playstation 5", "Xbox", "Nintendo Switch"][i % 4].split(
-			",",
-		),
-		genre: ["RPG", "FPS", "MOBA", "Aventura"][i % 4].split(","),
-		developer: ["Garena", "PUBG", "Corporation", "Activision", "Epic Games"][
-			i % 5
-		].split(","),
-	}));
+	// O ideal é usar imagens reais ou um placeholder que você controle bem
 
 	useEffect(() => {
 		setGames(mockGames);
-	}, [mockGames]);
+	}, []);
 
 	useEffect(() => {
 		let tempGames = [...games];
@@ -413,7 +412,7 @@ const CollectionPage: React.FC = () => {
 						{/* Card de N° de jogos */}
 						<div className="bg-[#2B2156] text-[#CBE220] p-6 rounded-xl shadow-lg flex flex-col items-start">
 							<img
-								src="./src/features/example/mocks/Game-icon.svg"
+								src={"src/assets/icons/game-icon.svg"}
 								alt="Número de jogos"
 								className=" w-15 mb-4"
 							/>
@@ -426,7 +425,7 @@ const CollectionPage: React.FC = () => {
 						{/* Card de Ano de Lançamento */}
 						<div className="bg-[#2B2156] text-[#F28F3B] p-6 rounded-xl shadow-lg flex flex-col items-start">
 							<img
-								src="./src/features/example/mocks/calendar-icon.svg"
+								src="src/assets/icons/calendar-icon.svg"
 								alt="Ano de lançamento"
 								className="w-17 mb-4"
 							/>
@@ -439,7 +438,7 @@ const CollectionPage: React.FC = () => {
 						{/* Card de Desenvolvedoras Predominantes */}
 						<div className="bg-[#2B2156]  text-[#CBE220] p-6 rounded-xl shadow-lg flex flex-col items-start">
 							<img
-								src="./src/features/example/mocks/dev-icon.svg"
+								src="src/assets/icons/dev-icon.svg"
 								alt="Desenvolvedoras"
 								className="w-12 mb-4"
 							/>
@@ -453,7 +452,7 @@ const CollectionPage: React.FC = () => {
 						{/* Card de Gêneros Predominantes */}
 						<div className="bg-[#2B2156] text-[#F28F3B] p-6 rounded-xl shadow-lg flex flex-col items-start">
 							<img
-								src="./src/features/example/mocks/battle-icon.svg"
+								src="src/assets/icons/battle-icon.svg"
 								alt="Gêneros"
 								className="w-15 mb-4"
 							/>

@@ -19,7 +19,6 @@ export const authReducer = (
 			return {
 				...state,
 				isAuthenticated: action.payload.isAuthenticated,
-				token: action.payload.token,
 				currentUser: action.payload.user,
 				isInitialized: true,
 				loading: false,
@@ -72,6 +71,21 @@ export const authReducer = (
 				loading: false,
 				isAuthenticated: false,
 				isRefreshing: false,
+			};
+		case "LOADING":
+			return {
+				...state,
+				loading: action.payload,
+			};
+		case "SET_CURRENT_USER":
+			return {
+				...state,
+				currentUser: action.payload,
+			};
+		case "SET_TOKEN":
+			return {
+				...state,
+				token: action.payload,
 			};
 		default:
 			return state;

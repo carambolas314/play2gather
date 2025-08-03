@@ -3,7 +3,6 @@ import type { RequestError } from "@shared/types";
 
 export const initialize = (payload: {
 	isAuthenticated: boolean;
-	token: string | null;
 	user: UserProfile | null;
 }): AuthAction => ({
 	type: "INITIALIZE",
@@ -41,4 +40,19 @@ export const refreshTokenFailure = (): AuthAction => ({
 
 export const logout = (): AuthAction => ({
 	type: "LOGOUT",
+});
+
+export const loading = (payload: boolean): AuthAction => ({
+	type: "LOADING",
+	payload,
+});
+
+export const setCurrentUser = (payload: UserProfile | null): AuthAction => ({
+	type: "SET_CURRENT_USER",
+	payload,
+});
+
+export const setToken = (payload: string | null): AuthAction => ({
+	type: "SET_TOKEN",
+	payload,
 });

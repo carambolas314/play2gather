@@ -1,9 +1,9 @@
 import type { RouteObject } from "react-router-dom";
 import NotFoundPage from "./pages/NotFound";
-import Home from "./pages/Home";
 import About from "./pages/About";
 import Layout from "@shared/components/layout/Layout";
-import { gameRoutes, iamRoutes, collectionRoutes } from "@features/routes";
+import { gameRoutes, iamRoutes, profileRoutes } from "@features/routes";
+import Home from "./pages/Home";
 
 export const appRoutes: RouteObject[] = [
 	{
@@ -12,16 +12,13 @@ export const appRoutes: RouteObject[] = [
 		errorElement: <NotFoundPage />,
 		children: [
 			{
-				path: "/",
+				path: "/home",
 				element: <Home />,
 			},
 			{ path: "/about", element: <About /> },
-			{ path: "/home", element: <Home /> },
-			{ path: "/collection", element: <Home /> },
-			{ path: "/community", element: <Home /> },
 			...iamRoutes,
 			...gameRoutes,
-			...collectionRoutes,
+			...profileRoutes,
 		],
 	},
 ];

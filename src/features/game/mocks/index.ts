@@ -8,6 +8,12 @@ import {
 	LiveCardImage,
 	VideoCardImage,
 	NoticeCardImage,
+	GameGTA,
+	GameMario,
+	GameHK,
+	GameHK2,
+	GameMetroid,
+	GameZelda,
 } from "@assets/mocks";
 
 import type { TagItemType } from "@components/ui/Tags";
@@ -352,32 +358,17 @@ export const mockRelatedContent: RelatedContentProps = {
 
 export const mockPopularLists: PopularCardItemProps[] = [
 	{
-		images: [
-			"https://images.unsplash.com/photo-1506744038136-46273834b3fb",
-			"https://images.unsplash.com/photo-1465101046530-73398c7f28ca",
-			"https://images.unsplash.com/photo-1519125323398-675f0ddb6308",
-			"https://images.unsplash.com/photo-1519125323398-675f0ddb6308",
-		],
+		images: [GameGTA, GameMario, GameHK2, GameMetroid],
 		title: "Paisagens Incríveis",
 		creator: "João Silva",
 	},
 	{
-		images: [
-			"https://images.unsplash.com/photo-1519985176271-adb1088fa94c",
-			"https://images.unsplash.com/photo-1519985176271-adb1088fa94c",
-			"https://images.unsplash.com/photo-1500534314209-a25ddb2bd429",
-			"https://images.unsplash.com/photo-1465101178521-c1a9136a3b99",
-		],
+		images: [GameMario, GameHK, GameZelda, GameHK2],
 		title: "Aventuras Urbanas",
 		creator: "Maria Souza",
 	},
 	{
-		images: [
-			"https://images.unsplash.com/photo-1465101046530-73398c7f28ca",
-			"https://images.unsplash.com/photo-1465101046530-73398c7f28ca",
-			"https://images.unsplash.com/photo-1506744038136-46273834b3fb",
-			"https://images.unsplash.com/photo-1519125323398-675f0ddb6308",
-		],
+		images: [GameMario, GameHK, GameGTA, GameMetroid],
 		title: "Natureza Selvagem",
 		creator: "Carlos Lima",
 	},

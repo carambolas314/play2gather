@@ -1,7 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap");
-
+/* Depois libs de terceiros */
+/* Primeiro Tailwind */
 @import "tailwindcss";
 
+/* Depois fontes externas */
+
+/* Por último seu CSS custom */
 body {
 	font-family: "Jost", sans-serif;
 }

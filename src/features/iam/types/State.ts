@@ -18,7 +18,6 @@ export type AuthAction =
 			type: "INITIALIZE";
 			payload: {
 				isAuthenticated: boolean;
-				token: string | null;
 				user: UserProfile | null;
 			};
 	  }
@@ -28,7 +27,10 @@ export type AuthAction =
 	| { type: "LOGOUT" }
 	| { type: "REFRESH_TOKEN_START" }
 	| { type: "REFRESH_TOKEN_SUCCESS"; payload: { token: string } }
-	| { type: "REFRESH_TOKEN_FAILURE" };
+	| { type: "REFRESH_TOKEN_FAILURE" }
+	| { type: "LOADING"; payload: boolean }
+	| { type: "SET_CURRENT_USER"; payload: UserProfile | null }
+	| { type: "SET_TOKEN"; payload: string | null };
 
 export interface AuthContextType extends AuthState {
 	login: (data: Login) => Promise<boolean>;

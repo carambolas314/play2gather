@@ -5,6 +5,7 @@ import {
 	useMemo,
 	useLayoutEffect,
 	useRef,
+	useCallback,
 } from "react";
 
 import type { AuthState, Login } from "../types";
@@ -32,10 +33,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 			loginSuccess: (payload) => dispatch(actionCreators.loginSuccess(payload)),
 			loginFailure: (payload) => dispatch(actionCreators.loginFailure(payload)),
 			logout: () => dispatch(actionCreators.logout()),
+			loading: (payload) => dispatch(actionCreators.loading(payload)),
 			refreshTokenStart: () => dispatch(actionCreators.refreshTokenStart()),
 			refreshTokenSuccess: (payload) =>
 				dispatch(actionCreators.refreshTokenSuccess(payload)),
 			refreshTokenFailure: () => dispatch(actionCreators.refreshTokenFailure()),
+			setCurrentUser: (payload) =>
+				dispatch(actionCreators.setCurrentUser(payload)),
+			setToken: (payload) => dispatch(actionCreators.setToken(payload)),
 		};
 	}, []);
 
@@ -44,43 +49,66 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 			try {
 				const localToken = localStorage.getItem("token");
 				if (localToken && localToken !== "undefined") {
-					const response = await api.get("/profile", requestConfig(false));
-					actions.initialize({
-						isAuthenticated: true,
-						user: response.data ?? null,
-						token: localToken,
-					});
+					actions.setToken(localToken);
 				} else {
+					actions.setToken(null);
 					actions.initialize({
 						isAuthenticated: false,
 						user: null,
-						token: null,
 					});
 				}
 			} catch (error) {
 				console.error("Failed to initialize auth state:", error);
-				localStorage.removeItem("token");
-				actions.initialize({ isAuthenticated: false, user: null, token: null });
+				actions.setToken(null);
+			} finally {
+				actions.loading(false);
 			}
 		};
 		initializeApp();
-	}, [actions, state.token]);
+	}, [actions]);
+
+	const fetchCurrentUser = useCallback(async () => {
+		try {
+			const response = await api.get("/profile", requestConfig(true));
+			actions.initialize({
+				isAuthenticated: true,
+				user: response.data,
+			});
+		} catch (error) {
+			console.error("Failed to fetch current user:", error);
+			actions.initialize({
+				isAuthenticated: false,
+				user: null,
+			});
+		}
+	}, [actions]);
+
+	useEffect(() => {
+		if (state.token) {
+			fetchCurrentUser();
+		}
+	}, [state.token, fetchCurrentUser]);
 
 	useLayoutEffect(() => {
 		const authInterceptor = api.interceptors.request.use((config) => {
-			if (stateRef.current.token) {
+			if (!(config as any)._retry && stateRef.current.token) {
 				config.headers.Authorization = `Bearer ${stateRef.current.token}`;
 				config.withCredentials = true;
 			}
 			return config;
 		});
 
+		return () => {
+			api.interceptors.request.eject(authInterceptor);
+		};
+	}, [state.token]);
+
+	useLayoutEffect(() => {
 		const refreshInterceptor = api.interceptors.response.use(
 			(response) => response,
 			async (error) => {
 				const originalRequest = error.config;
 				const currentState = stateRef.current;
-
 				if (
 					error.response?.status === 401 &&
 					!originalRequest._retry &&
@@ -89,7 +117,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 				) {
 					originalRequest._retry = true;
 					actions.refreshTokenStart();
-
 					try {
 						const response = await api.post(
 							"/refresh",
@@ -114,15 +141,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 		);
 
 		return () => {
-			api.interceptors.request.eject(authInterceptor);
 			api.interceptors.response.eject(refreshInterceptor);
 		};
-	}, [actions]);
+	}, [actions, state.isRefreshing]);
 
 	const login = async (data: Login): Promise<boolean> => {
 		actions.loginStart();
 		try {
-			const response = await api.post("/login", data, requestConfig(false));
+			const response = await api.post("/login", data, requestConfig(true));
 			const { accessToken: token } = response.data;
 			localStorage.setItem("token", token);
 			actions.loginSuccess({ token });
@@ -136,7 +162,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 	const logout = async () => {
 		try {
-			await api.post("/logout", requestConfig(true));
+			await api.post("/logout", {}, requestConfig(false));
 			localStorage.removeItem("token");
 			actions.logout();
 		} catch (error) {
