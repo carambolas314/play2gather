@@ -8,3 +8,5 @@ export { default as GameIcon } from "./icons/game-icon.svg?react";
 export { default as DevIcon } from "./icons/dev-icon.svg?react";
 export { default as CalendarIcon } from "./icons/calendar-icon.svg?react";
 export { default as BattleIcon } from "./icons/battle-icon.svg?react";
+export { default as LikeIcon } from "./icons/like.svg?react";
+export { default as ComentIcon } from "./icons/coments.svg?react";

@@ -16,10 +16,16 @@ const AsideItem = ({ children, ...props }: AsideItemProps) => {
 	);
 };
 
-const AsideItemTitle = ({ children, className }: AsideItemProps) => {
+const AsideItemTitle = ({
+	children,
+	className,
+	autoMargin = true,
+}: AsideItemProps & { autoMargin?: boolean }) => {
 	return (
-		<h3 className={`text-[25px] text-center font-bold mb-4 ${className}`}>
-			{children}{" "}
+		<h3
+			className={`text-[25px] text-center font-bold ${autoMargin ? "mb-4" : ""} ${className}`}
+		>
+			{children}
 		</h3>
 	);
 };

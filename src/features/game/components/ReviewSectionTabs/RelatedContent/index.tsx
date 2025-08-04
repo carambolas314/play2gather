@@ -65,7 +65,7 @@ function Section({ title, children }: SectionProps) {
 }
 
 export function RelatedContent({ children }: RelatedContentProps) {
-	return <div className="space-y-6 p-4">{children}</div>;
+	return <div className="space-y-6 p-4 text-white">{children}</div>;
 }
 
 RelatedContent.Section = Section;

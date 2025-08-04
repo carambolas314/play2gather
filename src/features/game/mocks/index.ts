@@ -14,16 +14,17 @@ import {
 	GameHK2,
 	GameMetroid,
 	GameZelda,
+	ProfileIcon,
 } from "@assets/mocks";
 
 import type { TagItemType } from "@components/ui/Tags";
 import type { AchievementsType } from "../components/AsideItems/AchievementsAsideItem";
 import type { RelatedGameProps } from "../components/AsideItems/RelatedGamesAsideItem";
-import type { UserReviewCardProps } from "../components/ReviewSectionTabs/UserReview";
 import type { SystemRequirementsProps } from "../components/ReviewSectionTabs/SystemRequirements";
 import type { FanGalleryProps } from "../components/ReviewSectionTabs/FanGallery";
 import type { RelatedContentProps } from "../components/ReviewSectionTabs/RelatedContent/RelatedContent";
 import type { PopularCardItemProps } from "../components/PopularCardItem";
+import type { Post, ReviewContent } from "@shared/types/content/post";
 
 export const tagsMock: TagItemType[] = [
 	{ label: "Tag de gênero", color: "purple" },
@@ -177,28 +178,41 @@ export const sameDeveloperMock: RelatedGameProps[] = [
 	},
 ];
 
-export const mockUserReview: UserReviewCardProps[] = [
+export const mockUserReview: Post<ReviewContent>[] = [
 	{
-		id: "1",
-		username: "NomeUsuário",
-		avatarColor: "purple", // Passamos a variante, não a classe
-		badgeStatus: "completed", // Passamos o status, não a cor/label
-		reviewsCount: 9,
-		date: "09/09/2099",
-		text: "Todos os seres humanos nascem livres e iguais em dignidade e direitos. São dotados de razão e consciência...",
+		postId: "1",
+		authorId: "user-1",
+		parentId: "1",
+		relatedContentType: "REVIEW",
+		content: {
+			gameId: "1",
+			message:
+				"Todos os seres humanos nascem livres e iguais em dignidade e direitos. São dotados de razão e consciência e devem agir em relação uns aos outros com espírito de fraternidade. Todos os seres humanos nascem livres e iguais em dignidade e direitos. São dotados de razão e consciência e devem agir em relação uns aos outros com espírito de fraternidade.",
+			reviewImage: ProfileIcon,
+			badgeStatus: "completed",
+			title: "LorenaIpsum",
+			rating: 4.5,
+		},
 		likes: 99,
-		comments: 99,
+		childrenIds: ["2", "3", "4"],
+		createdAt: new Date("2023-09-08"),
 	},
 	{
-		id: "2",
-		username: "NomeUsuário",
-		avatarColor: "purple",
-		badgeStatus: "playing", // <-- Muito mais legível!
-		reviewsCount: 9,
-		date: "09/09/2099",
-		text: "Todos os seres humanos nascem livres e iguais em dignidade e direitos. São dotados de razão e consciência...",
-		likes: 99,
-		comments: 99,
+		postId: "2",
+		authorId: "user-2",
+		content: {
+			message:
+				"Todos os seres humanos nascem livres e iguais em dignidade e direitos. São dotados de razão e consciência e devem agir em relação uns aos outros com espírito de fraternidade. Todos os seres humanos nascem livres e iguais em dignidade e direitos. São dotados de razão e consciência e devem agir em relação uns aos outros com espírito de fraternidade.",
+			reviewImage: ProfileIcon,
+			badgeStatus: "playing",
+			gameId: "2",
+			title: "LorenaIpsum2",
+			rating: 0,
+		},
+		likes: 50,
+		createdAt: new Date("2023-09-10"),
+		childrenIds: ["2", "3", "4"],
+		relatedContentType: "REVIEW",
 	},
 ];
 

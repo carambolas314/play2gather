@@ -22,7 +22,7 @@ const Game = () => {
 
 	return (
 		<>
-			<main className="bg-[#1C1C2E] text-white py-5 flex justify-center pb-[10%] gap-5">
+			<main className="bg-[#1C1C2E] py-5 flex justify-center pb-[10%] gap-5">
 				<MaxWidthWrapper className="flex justify-center items-start">
 					<section
 						className="flex flex-col pt-10 w-[45%]"

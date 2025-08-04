@@ -1,4 +1,4 @@
-import type { AlertColor } from "@shared/enums/alert";
+import type { AlertColor } from "@shared/enums/Alert";
 
 export interface ApiSuccessResponse {
 	id: string;

@@ -10,6 +10,8 @@ import {
 	mockFanGallery,
 } from "../../mocks";
 import { CompoundRelatedContent } from "@features/game/components/ReviewSectionTabs/RelatedContent/RelatedContent";
+import GenericPrimaryButton from "@components/ui/Button/GenericPrimaryButton";
+import { Link } from "react-router-dom";
 
 export const TABS_CONFIG: TabConfig[] = [
 	{
@@ -19,8 +21,14 @@ export const TABS_CONFIG: TabConfig[] = [
 		content: (
 			<div className="p-4 space-y-4">
 				{mockUserReview.map((review) => (
-					<UserReviewCard key={review.id} {...review} />
+					<UserReviewCard key={review.postId} post={review} />
 				))}
+				<GenericPrimaryButton
+					as={Link}
+					to="/reviews/add"
+					text="Mostrar Mais"
+					hasLineGradient
+				/>
 			</div>
 		),
 	},

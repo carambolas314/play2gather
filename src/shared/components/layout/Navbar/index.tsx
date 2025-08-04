@@ -43,9 +43,8 @@ const AuthenticatedUserActions = ({
 
 	return (
 		<div className="flex items-center space-x-4 text-sm">
-			<span className="text-white">Olá, {currentUser.name}!</span>
 			<CustomNavLink to="/profile" isActive={location.pathname === "/profile"}>
-				<ProfileIcon />
+				<ProfileIcon id={currentUser.id} />
 			</CustomNavLink>
 			<BellIcon />
 			<button className="text-white hover:underline" onClick={handleLogout}>
